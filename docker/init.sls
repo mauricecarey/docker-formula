@@ -94,6 +94,15 @@ docker-config:
     - mode: 644
     - user: root
 
+{% if docker.users is defined and docker.users %}
+docker-group:
+  group.present:
+    - name: docker
+    - addusers: {{ docker.users }}
+    - require_in:
+      - service: docker-service
+{% endif %}
+
 docker-service:
   service.running:
     - name: docker
