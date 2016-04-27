@@ -97,7 +97,11 @@ docker-config:
 {% if docker.users is defined and docker.users %}
 docker-group:
   group.present:
+    {%- if "group" in docker %}
+    - name: {{ docker.group }}
+    {%- else %}
     - name: docker
+    {%- endif %}
     - addusers: {{ docker.users }}
     - require_in:
       - service: docker-service
